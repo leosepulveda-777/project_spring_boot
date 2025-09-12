@@ -23,7 +23,14 @@ import jakarta.validation.Valid;
 public class UserController {
   // Inyectar el servicio
   @Autowired
+
   private UserService userService;
+  @DeleteMapping("/api/users")
+public ResponseEntity<Void>
+deleteuser(@  PathVariable Long id) {
+userService.deleteUser(id); //usamos el que el profesor nos dio
+return ResponseEntity.noContenet().build();
+}
 
   @GetMapping
   @Operation(summary = "Get all users", description = "Retrieve a list of all users")
@@ -87,6 +94,9 @@ public class UserController {
   }
 
 
+
+// a  
+
 @PutMapping("/{id}")
 @Operation(summary = "Actualiza un usuario existente", description = "Actualiza un usuario con todos los datos")
 @ApiResponses(value = {
@@ -110,5 +120,3 @@ public ResponseEntity<UserDTO> userPut(
   }
 
 }
- 
-
