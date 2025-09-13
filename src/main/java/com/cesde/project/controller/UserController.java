@@ -25,7 +25,7 @@ public class UserController {
   @Autowired
 
   private UserService userService;
-  @GetMapping("/email/{email}") // 👈 GET http://localhost:8080/api/users/email/loquesea
+  @GetMapping("/email/{email}") // 👈 GET el que nos devuelve el resultado en a url xd
     public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
         return userService.getUserByEmail(email)
                 .map(user -> ResponseEntity.ok(user)) // 200 con user
