@@ -23,7 +23,15 @@ import jakarta.validation.Valid;
 public class UserController {
   // Inyectar el servicio
   @Autowired
+
   private UserService userService;
+  @GetMapping("/email/{email}") // 👈 GET http://localhost:8080/api/users/email/loquesea
+    public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
+        return userService.getUserByEmail(email)
+                .map(user -> ResponseEntity.ok(user)) // 200 con user
+                .orElse(ResponseEntity.notFound().build()); // 404 si no existe
+    }
+
 
   @GetMapping
   @Operation(summary = "Get all users", description = "Retrieve a list of all users")
@@ -86,3 +94,6 @@ public class UserController {
     }
   }
 }
+
+
+
