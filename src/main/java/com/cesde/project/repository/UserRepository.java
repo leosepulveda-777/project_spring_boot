@@ -23,6 +23,8 @@ import java.util.Optional;
  */
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+  List<Usuario>
+  findByfirstNameContainingIgnoreCase(String firstName);
 
   // ========================================
   // MÉTODOS AUTOMÁTICOS DE SPRING DATA JPA
@@ -110,4 +112,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
    * Buscar por email con paginación
    */
   Page<User> findByEmailContaining(String email, Pageable pageable);
+
 }
+
+
+
