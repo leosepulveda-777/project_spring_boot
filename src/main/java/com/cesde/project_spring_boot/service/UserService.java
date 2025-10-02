@@ -224,4 +224,8 @@ public class UserService {
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
+    public List<UserDTO> searchByLastName(String lastName) {
+    List<User> users = userRepository.findByLastNameContainingIgnoreCase(lastName);
+    return users.stream().map(UserDTO::fromEntity).collect(Collectors.toList());
+}
 }

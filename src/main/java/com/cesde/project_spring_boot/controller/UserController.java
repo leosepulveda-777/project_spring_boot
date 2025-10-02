@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import jakarta.validation.Valid;
 
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -497,4 +498,20 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+    @GetMapping("/search/lastname")
+@Operation(summary = "Search users by last name", description = "Retrieve users whose last name contains the given string (case insensitive)")
+@ApiResponses(value = {
+    @ApiResponse(responseCode = "200", description = "Successfully retrieved users"),
+    @ApiResponse(responseCode = "500", description = "Internal server error")
+})
+public ResponseEntity<List<UserDTO>> searchUsersByLastName(
+        @Parameter(description = "Last name or part of it", example = "Pérez")
+        @RequestParam("name") String lastName) {
+    try {
+        List<UserDTO> users = userService.searchByLastName(lastName);
+        return ResponseEntity.ok(users); // 200 con lista vacía si no encuentra nada
+    } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+}
 }
