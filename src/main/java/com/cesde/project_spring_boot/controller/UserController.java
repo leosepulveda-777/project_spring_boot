@@ -498,6 +498,7 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
     @GetMapping("/search/lastname")
 @Operation(summary = "Search users by last name", description = "Retrieve users whose last name contains the given string (case insensitive)")
 @ApiResponses(value = {
