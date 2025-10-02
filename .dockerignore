@@ -31,3 +31,6 @@ node_modules/
 
 application-local.properties
 application-dev.properties
+
+.env
+.env.*
