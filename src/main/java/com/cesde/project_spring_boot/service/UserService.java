@@ -224,4 +224,14 @@ public class UserService {
     public boolean existsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
+     // Método para buscar usuarios por nombre o apellido
+    public List<UserDTO> searchByFullName(String name) {
+        // Llama al repositorio que ejecuta la consulta en BD
+        List<User> users = userRepository.searchByNameOrLastName(name);
+
+        // Convierte la lista de entidades (User) en DTOs para enviar al cliente
+        return users.stream()
+                .map(UserDTO::fromEntity) // User -> UserDTO
+                .collect(Collectors.toList());
+    }
 }

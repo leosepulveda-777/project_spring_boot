@@ -11,6 +11,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+
+
 /**
  * UserRepository - Interfaz para acceder a los datos de usuarios
  * 
@@ -110,4 +112,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
    * Buscar por email con paginación
    */
   Page<User> findByEmailContaining(String email, Pageable pageable);
+
+
+
+
+   // Consulta personalizada (JPQL) que busca en firstName o lastName
+    // LOWER -> convierte todo a minúsculas para ignorar mayúsculas/minúsculas
+    // LIKE -> permite buscar coincidencias parciales (ej: "Car" encuentra "Carlos")
+  @Query("SELECT u FROM User u WHERE LOWER(u.firstName) LIKE LOWER(CONCAT('%', :name, '%')) " +
+           "OR LOWER(u.lastName) LIKE LOWER(CONCAT('%', :name, '%'))")
+    List<User> searchByNameOrLastName(@Param("name") String name);
 }

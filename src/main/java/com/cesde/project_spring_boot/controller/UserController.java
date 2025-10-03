@@ -210,20 +210,7 @@ public class UserController {
      * - /api/users/search?name=Juan
      * - /api/users/search?name=ana
      */
-    @GetMapping("/search")
-    @Operation(summary = "Buscar usuarios por nombre",
-            description = "Busca usuarios que contengan el nombre especificado")
-    public ResponseEntity<List<UserDTO>> searchUsers(
-            @Parameter(description = "Nombre a buscar", required = true, example = "Juan")
-            @RequestParam String name) {
-
-        try {
-            List<UserDTO> users = userService.searchUsersByName(name);
-            return ResponseEntity.ok(users);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
+    
 
     /**
      * 🌟 VERSIÓN 2: GET /api/users/search/paged?name=Juan&page=0&size=5 - Con paginación
@@ -497,4 +484,42 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
+
+    
+// Buscar usuarios por cualquier parte del nombre o apellido (insensible a mayúsculas/minúsculas)
+@GetMapping("/search")
+@Operation(
+        summary = "Global search by full name",
+        description = "Search users by first name OR last name (case insensitive, partial match)"
+)
+@ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved users"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")
+})
+public ResponseEntity<List<UserDTO>> searchUsers(
+        @RequestParam("name")
+        @Parameter(description = "Name or last name (partial match)", example = "Carlos")
+        String name) {
+    try {
+        // Se llama al servicio que hace la búsqueda en la BD
+        List<UserDTO> users = userService.searchByFullName(name);
+
+        // Respuesta HTTP 200 con lista de usuarios (puede estar vacía)
+        return ResponseEntity.ok(users);
+    } catch (Exception e) {
+        // Si ocurre un error, devolvemos estado 500
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+}
+
+
+
+
+
+
+
+
+
+
+    
 }
