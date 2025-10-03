@@ -518,4 +518,36 @@ public ResponseEntity<List<UserDTO>> searchUsersByLastName(
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 }
+
+
+
+
+// Nuevo endpoint: contar usuarios
+    @GetMapping("/count") // Ruta: GET /api/users/count
+    @Operation(
+            summary = "Count total users", 
+            description = "Retrieve the total number of registered users"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved total users"),
+            @ApiResponse(responseCode = "500", description = "Internal server error")
+    })
+    public ResponseEntity<Map<String, Long>> countUsers() {
+        try {
+            // Llamamos al servicio que hace el conteo en la base de datos
+            long totalUsers = userService.countUsers();
+
+            // Creamos un mapa para devolver el resultado en formato JSON
+            // {"totalUsers": X}
+            Map<String, Long> response = new HashMap<>();
+            response.put("totalUsers", totalUsers);
+
+            // Devolvemos la respuesta con estado HTTP 200 (OK)
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            // Si ocurre un error interno, respondemos con estado 500
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+    }
 }

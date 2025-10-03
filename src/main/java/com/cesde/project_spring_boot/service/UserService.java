@@ -233,4 +233,13 @@ public class UserService {
     List<User> users = userRepository.findByLastNameContainingIgnoreCase(lastName);
     return users.stream().map(UserDTO::fromEntity).collect(Collectors.toList());
 }
+
+
+// Método que retorna el total de usuarios en la base de dato
+public long countUsers() {
+
+    // count() viene por defecto en JpaRepository
+    return userRepository.count();
+}
+
 }
