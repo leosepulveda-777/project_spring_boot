@@ -485,7 +485,7 @@ public class UserController {
         }
     }
 
-    
+
 // Buscar usuarios por cualquier parte del nombre o apellido (insensible a mayúsculas/minúsculas)
 @GetMapping("/search")
 @Operation(
@@ -512,7 +512,30 @@ public ResponseEntity<List<UserDTO>> searchUsers(
     }
 }
 
+// 🌐 GET /api/users/domain/{domain}
+@GetMapping("/domain/{domain}")
+@Operation(
+        summary = "Filter users by email domain",
+        description = "Returns all users whose email ends with the specified domain (case insensitive)"
+)
+@ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved users"),
+        @ApiResponse(responseCode = "500", description = "Internal server error")
+})
+public ResponseEntity<List<UserDTO>> getUsersByDomain(
+        @Parameter(description = "Email domain without @", example = "gmail.com")
+        @PathVariable String domain) {
+    try {
+        // 👉 Llamamos al servicio que hace la búsqueda
+        List<UserDTO> users = userService.getUsersByDomain(domain);
 
+        // 👉 Retornamos 200 con la lista (puede estar vacía si no hay coincidencias)
+        return ResponseEntity.ok(users);
+    } catch (Exception e) {
+        // 👉 Si hay error inesperado devolvemos 500
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
+}
 
 
 

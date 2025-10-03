@@ -122,4 +122,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
   @Query("SELECT u FROM User u WHERE LOWER(u.firstName) LIKE LOWER(CONCAT('%', :name, '%')) " +
            "OR LOWER(u.lastName) LIKE LOWER(CONCAT('%', :name, '%'))")
     List<User> searchByNameOrLastName(@Param("name") String name);
+
+
+
+    // Buscar usuarios por dominio de email (ejemplo: gmail.com)
+List<User> findByEmailEndingWithIgnoreCase(String domain);
 }

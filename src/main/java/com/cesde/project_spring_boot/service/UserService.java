@@ -234,4 +234,21 @@ public class UserService {
                 .map(UserDTO::fromEntity) // User -> UserDTO
                 .collect(Collectors.toList());
     }
+
+// Filtrar usuarios por dominio de email
+public List<UserDTO> getUsersByDomain(String domain) {
+    // Aseguramos que el dominio tenga el formato correcto con @
+    String filter = "@" + domain;
+
+    List<User> users = userRepository.findByEmailEndingWithIgnoreCase(filter);
+
+    // Convertimos la lista de entidades en DTOs
+    return users.stream()
+            .map(UserDTO::fromEntity)
+            .collect(Collectors.toList());
+}
+
+
+
+
 }
