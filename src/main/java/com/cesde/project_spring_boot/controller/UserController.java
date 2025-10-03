@@ -535,6 +535,8 @@ public ResponseEntity<List<UserDTO>> getUsersByDomain(
         // 👉 Si hay error inesperado devolvemos 500
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
+
+    
 }
 
 

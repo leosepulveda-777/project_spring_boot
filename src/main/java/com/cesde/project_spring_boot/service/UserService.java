@@ -9,9 +9,13 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.Map;
+
+
 
 /**
  * UserService - Contiene la lógica de negocio para usuarios
@@ -235,6 +239,9 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
+
+
+    
 // Filtrar usuarios por dominio de email
 public List<UserDTO> getUsersByDomain(String domain) {
     // Aseguramos que el dominio tenga el formato correcto con @
@@ -248,7 +255,27 @@ public List<UserDTO> getUsersByDomain(String domain) {
             .collect(Collectors.toList());
 }
 
+// 📊 Obtener estadísticas de usuarios por dominio
+public Map<String, Object> getDomainStats(String domain) {
+    // Aseguramos que siempre se busque con "@" delante
+    String filter = "@" + domain;
 
+    // Buscamos los usuarios con ese dominio
+    List<User> users = userRepository.findByEmailEndingWithIgnoreCase(filter);
+
+    // Convertimos la lista a DTO
+    List<UserDTO> userDTOs = users.stream()
+            .map(UserDTO::fromEntity)
+            .collect(Collectors.toList());
+
+    // Armamos el JSON de respuesta en un Map
+    Map<String, Object> response = new HashMap<>();
+    response.put("domain", domain);          // Dominio buscado
+    response.put("count", users.size());     // Total de usuarios encontrados
+    response.put("users", userDTOs);         // Lista de usuarios (DTOs)
+
+    return response;
+}
 
 
 }
