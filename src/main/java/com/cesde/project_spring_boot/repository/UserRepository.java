@@ -109,6 +109,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
   /**
    * Buscar por email con paginación
    */
-  List<User> findByLastNameContainingIgnoreCase(String lastName);
+  
+
+
+   //aqui es para la lista 
+   List<User> findByLastNameContainingIgnoreCase(String lastName);
   Page<User> findByEmailContaining(String email, Pageable pageable);
 }

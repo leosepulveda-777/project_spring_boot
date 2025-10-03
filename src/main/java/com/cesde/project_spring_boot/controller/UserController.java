@@ -499,7 +499,10 @@ public class UserController {
         }
     }
 
-    @GetMapping("/search/lastname")
+   
+
+    //Aqui el solicitado para la info 
+     @GetMapping("/search/lastname")
 @Operation(summary = "Search users by last name", description = "Retrieve users whose last name contains the given string (case insensitive)")
 @ApiResponses(value = {
     @ApiResponse(responseCode = "200", description = "Successfully retrieved users"),
